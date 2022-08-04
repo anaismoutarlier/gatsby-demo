@@ -7,7 +7,7 @@ const linkStyle = {
 }
 const IndexPage = ({
   data: {
-    allMdx: { edges: posts },
+    allContentfulBlog: { edges: posts },
   },
 }) => {
   return (
@@ -17,24 +17,23 @@ const IndexPage = ({
       <Title />
       {posts.map(({ node }) => (
         <Link style={ linkStyle } key={node.id} to={node.slug}>
-          {node.frontmatter.title} {node.frontmatter.date}
+          {node.title} {node.createdAt}
         </Link>
       ))}
     </main>
   );
 };
 
+//allContentful<nom du modèle>
 export const query = graphql`
-  query {
-    allMdx (sort: { fields: frontmatter___date, order: DESC})  {
+  query MyQuery {
+    allContentfulBlog {
       edges {
         node {
           id
-          frontmatter {
-            date(formatString: "MMM D, YYYY")
-            title
-          }
+          title
           slug
+          createdAt(formatString: "MMM D, YYYY h:mm")
         }
       }
     }
